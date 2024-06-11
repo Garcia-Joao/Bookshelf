@@ -30,7 +30,7 @@ namespace Bookshelf.Presentation {
 
         private void InjectDatabaseContext(IServiceCollection services) {
 
-            string connectionString = JsonHelper.GetConfigurationData("ConnectioStrings", "SQLConnectionString");
+            string connectionString = JsonHelper.GetConfigurationData("ConnectionStrings", "SQLConnectionString");
 
             var optionsBuilder = new DbContextOptionsBuilder<DatabaseContext>();
             optionsBuilder.UseSqlServer(connectionString);

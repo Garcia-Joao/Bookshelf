@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Bookshelf.Helpers {
-    internal class JsonHelper {
+    public class JsonHelper {
         public static string GetConfigurationData(string parentKey, string dataKey) {
             string settingsFileName = "appsettings.json";
             string settingsFolderName = "Configuration";

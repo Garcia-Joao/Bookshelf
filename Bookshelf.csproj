@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <Folder Include="Presentation\Models\" />
-    <Folder Include="Presentation\ViewModels\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,6 +27,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Telerik.UI.for.Wpf.60.Xaml.Trial" Version="2024.2.514" />
   </ItemGroup>
 
 </Project>

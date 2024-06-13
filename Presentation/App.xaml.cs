@@ -6,7 +6,7 @@ using Bookshelf.Infrastructure.Controllers;
 using Bookshelf.Infrastructure.Database;
 using Bookshelf.Infrastructure.Domain.Controllers;
 using Bookshelf.Infrastructure.Entities;
-using Bookshelf.Presentation.View;
+using Bookshelf.Presentation.Views;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -46,8 +46,8 @@ namespace Bookshelf.Presentation {
 
             base.OnStartup(e);
 
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
+            MainWindow baseWindow = new MainWindow();
+            baseWindow.Show();
         }
 
         private void CreateDatabase(IServiceCollection services, string connectionString) {

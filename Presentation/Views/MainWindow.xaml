@@ -1,12 +1,45 @@
-﻿<Window x:Class="Bookshelf.Presentation.View.MainWindow"
+﻿<Window x:Class="Bookshelf.Presentation.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Bookshelf.Presentation.View"
+        xmlns:local="clr-namespace:Bookshelf.Presentation.Views"
+        xmlns:vm="clr-namespace:Bookshelf.Presentation.ViewModels"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    
+    <Window.DataContext>
+        <vm:MainViewModel/>
+    </Window.DataContext>
 
+    <Window.Resources>
+        <Style TargetType="telerik:RadPane">
+            <Setter Property="Background" Value="LightGray" />
+            <Setter Property="Padding" Value="5" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <telerik:RadDocking>
+            <telerik:RadSplitContainer InitialPosition="DockedLeft">
+                <telerik:RadPaneGroup>
+                    <telerik:RadPane Header="Menu" CanUserClose="False" CanFloat="False">
+                        <StackPanel>
+                            <Button Content="Books" Command="{Binding ShowBooksCommand}" Margin="5" />
+                            <Button Content="Genres" Command="{Binding ShowGenresCommand}" Margin="5" />
+                            <Button Content="Authors" Command="{Binding ShowAuthorsCommand}" Margin="5" />
+                        </StackPanel>
+                    </telerik:RadPane>
+                </telerik:RadPaneGroup>
+            </telerik:RadSplitContainer>
+            <telerik:RadSplitContainer>
+                <telerik:RadPaneGroup>
+                    <telerik:RadPane CanUserClose="False" CanFloat="False">
+                        <ContentControl Content="{Binding CurrentViewModel}" />
+                    </telerik:RadPane>
+                </telerik:RadPaneGroup>
+            </telerik:RadSplitContainer>
+        </telerik:RadDocking>
     </Grid>
+
 </Window>

@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Telerik.Windows.Controls;
 
 namespace Bookshelf.Presentation.Views {
     /// <summary>
@@ -19,6 +20,7 @@ namespace Bookshelf.Presentation.Views {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
+            StyleManager.ApplicationTheme = new Office_BlackTheme();
         }
     }
 }

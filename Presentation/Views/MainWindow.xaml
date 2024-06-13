@@ -13,33 +13,31 @@
         <vm:MainViewModel/>
     </Window.DataContext>
 
-    <Window.Resources>
-        <Style TargetType="telerik:RadPane">
-            <Setter Property="Background" Value="LightGray" />
-            <Setter Property="Padding" Value="5" />
-        </Style>
-    </Window.Resources>
     <Grid>
-        <telerik:RadDocking>
-            <telerik:RadSplitContainer InitialPosition="DockedLeft">
-                <telerik:RadPaneGroup>
-                    <telerik:RadPane Header="Menu" CanUserClose="False" CanFloat="False">
-                        <StackPanel>
-                            <Button Content="Books" Command="{Binding ShowBooksCommand}" Margin="5" />
-                            <Button Content="Genres" Command="{Binding ShowGenresCommand}" Margin="5" />
-                            <Button Content="Authors" Command="{Binding ShowAuthorsCommand}" Margin="5" />
-                        </StackPanel>
-                    </telerik:RadPane>
-                </telerik:RadPaneGroup>
-            </telerik:RadSplitContainer>
-            <telerik:RadSplitContainer>
-                <telerik:RadPaneGroup>
-                    <telerik:RadPane CanUserClose="False" CanFloat="False">
-                        <ContentControl Content="{Binding CurrentViewModel}" />
-                    </telerik:RadPane>
-                </telerik:RadPaneGroup>
-            </telerik:RadSplitContainer>
-        </telerik:RadDocking>
+        <!-- Main Content Area -->
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Content Controller -->
+            <telerik:RadTransitionControl x:Name="ContentController" Grid.Row="0">
+                <!-- Initial content or placeholder -->
+                <TextBlock Text="Main Content Area" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24"/>
+            </telerik:RadTransitionControl>
+
+            <!-- Sidebar (Overlay) -->
+            <Border x:Name="Sidebar" Background="LightGray" Width="250" VerticalAlignment="Stretch" HorizontalAlignment="Left" Visibility="Collapsed">
+                <StackPanel>
+                    <telerik:RadButton Content="Home"/>
+                    <telerik:RadButton Content="Settings"/>
+                    <telerik:RadButton Content="Help"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- Toggle Button for Sidebar -->
+        <telerik:RadToggleButton Content="Toggle Sidebar" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10"/>
     </Grid>
 
 </Window>

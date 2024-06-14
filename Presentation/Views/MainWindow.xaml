@@ -5,39 +5,96 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Bookshelf.Presentation.Views"
         xmlns:vm="clr-namespace:Bookshelf.Presentation.ViewModels"
+        xmlns:components="clr-namespace:Bookshelf.Presentation.Components"
         xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        ResizeMode="NoResize"
+        WindowStyle="SingleBorderWindow"
+        Title="Bookshelf" Height="600" Width="900">
     
     <Window.DataContext>
         <vm:MainViewModel/>
     </Window.DataContext>
 
     <Grid>
-        <!-- Main Content Area -->
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height=".2*"/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <!-- Content Controller -->
-            <telerik:RadTransitionControl x:Name="ContentController" Grid.Row="0">
-                <!-- Initial content or placeholder -->
-                <TextBlock Text="Main Content Area" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24"/>
-            </telerik:RadTransitionControl>
+            <Border BorderThickness="0,0,0,3"
+                    Background="{DynamicResource HeaderBackgroundBrush}"
+                    BorderBrush="{DynamicResource SplitterBrush}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width=".4*"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
 
-            <!-- Sidebar (Overlay) -->
-            <Border x:Name="Sidebar" Background="LightGray" Width="250" VerticalAlignment="Stretch" HorizontalAlignment="Left" Visibility="Collapsed">
-                <StackPanel>
-                    <telerik:RadButton Content="Home"/>
-                    <telerik:RadButton Content="Settings"/>
-                    <telerik:RadButton Content="Help"/>
-                </StackPanel>
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <!--Author Filter Component-->
+                        <components:LabeledComboBox LabelText="Author"/>
+                        <!--Genre Filter Component-->
+                        <components:LabeledComboBox LabelText="Genre" 
+                                                    Grid.Column="1"/>
+                        
+                        <!--Book Search Component-->
+                        
+                        <Border CornerRadius="10"
+                                BorderThickness="1"
+                                Grid.Column="2"
+                                Background="{DynamicResource ViewBackgroundBrush}"
+                                BorderBrush="{DynamicResource SplitterBrush}"
+                                Margin="15, 43, 15, 23">
+                            <StackPanel Orientation="Horizontal">
+                                <telerik:RadWatermarkTextBox BorderThickness="0"
+                                                             Background="Transparent"
+                                                             WatermarkBehavior="HideOnTextEntered"
+                                                             WatermarkContent="Book Name"
+                                                             FocusVisualStyle="{x:Null}"
+                                                             Width="129"
+                                                             telerik:CornerRadiusHelper.ClipRadius="10"
+                                                             />
+                                <Image>
+                                    
+                                </Image>
+                            </StackPanel>
+                        </Border>
+
+                        <telerik:RadButton Grid.Column="3"
+                                           Background="Purple">
+                            
+                        </telerik:RadButton>
+                    </Grid>
+                </Grid>
             </Border>
-        </Grid>
 
-        <!-- Toggle Button for Sidebar -->
-        <telerik:RadToggleButton Content="Toggle Sidebar" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10"/>
+            <Grid Grid.Row="1"
+                  Background="{DynamicResource WindowBackgroundBrush}">
+                <Border Background="{DynamicResource ViewBackgroundBrush}"
+                        Margin="15"
+                        CornerRadius="10">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="10"
+                                          Opacity=".5">
+                            
+                        </DropShadowEffect>
+                    </Border.Effect>
+
+                    <ContentControl Margin="4">
+                        
+                    </ContentControl>
+                </Border>
+            </Grid>
+        </Grid>
     </Grid>
 
 </Window>

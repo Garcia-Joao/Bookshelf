@@ -20,7 +20,7 @@ namespace Bookshelf.Presentation.Views {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
-            StyleManager.ApplicationTheme = new Office_BlackTheme();
+            StyleManager.ApplicationTheme = new MaterialTheme();
         }
     }
 }

@@ -10,12 +10,7 @@
         mc:Ignorable="d"
         ResizeMode="NoResize"
         WindowStyle="SingleBorderWindow"
-        Title="Bookshelf" Height="600" Width="900">
-    
-    <Window.DataContext>
-        <vm:MainViewModel/>
-    </Window.DataContext>
-
+        Title="Bookshelf" Height="600" Width="1200">
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
@@ -28,7 +23,7 @@
                     BorderBrush="{DynamicResource SplitterBrush}">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width=".4*"/>
+                        <ColumnDefinition Width=".3*"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
@@ -39,40 +34,76 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        
+
                         <!--Author Filter Component-->
-                        <components:LabeledComboBox LabelText="Author"/>
+                        <components:LabeledComboBox LabelText="Author"
+                                                    ComboBoxItems="{Binding Authors}"/>
                         <!--Genre Filter Component-->
                         <components:LabeledComboBox LabelText="Genre" 
+                                                    ComboBoxItems="{Binding Genres}"
                                                     Grid.Column="1"/>
-                        
+
                         <!--Book Search Component-->
-                        
+
+                        <TextBlock Text="Search" Grid.Column="2"
+                                   Foreground="{DynamicResource FontBrush}"
+                                   FontWeight="SemiBold"
+                                   Margin="23,20,100,55"/>
+
                         <Border CornerRadius="10"
                                 BorderThickness="1"
                                 Grid.Column="2"
                                 Background="{DynamicResource ViewBackgroundBrush}"
                                 BorderBrush="{DynamicResource SplitterBrush}"
-                                Margin="15, 43, 15, 23">
+                                Margin="15, 40, 15, 20">
                             <StackPanel Orientation="Horizontal">
                                 <telerik:RadWatermarkTextBox BorderThickness="0"
                                                              Background="Transparent"
                                                              WatermarkBehavior="HideOnTextEntered"
                                                              WatermarkContent="Book Name"
                                                              FocusVisualStyle="{x:Null}"
-                                                             Width="129"
+                                                             Width="161"
+                                                             VerticalAlignment="Center"
                                                              telerik:CornerRadiusHelper.ClipRadius="10"
                                                              />
-                                <Image>
-                                    
-                                </Image>
+                                <Image Source="{DynamicResource SearchIcon}"
+                                       HorizontalAlignment="Left"
+                                       Margin="2,10,10,10"/>
+
+
                             </StackPanel>
                         </Border>
 
-                        <telerik:RadButton Grid.Column="3"
-                                           Background="Purple">
-                            
-                        </telerik:RadButton>
+                        <Border Background="{DynamicResource PrimaryButtonBrush}"
+                                CornerRadius="15"
+                                Margin="30,35,30,15"
+                                Grid.Column="3">
+                            <Button telerik:CornerRadiusHelper.ClipRadius="15"
+                                    FocusVisualStyle="{x:Null}">
+                                <StackPanel Orientation="Horizontal"
+                                            VerticalAlignment="Center">
+                                    <TextBlock Text="ADD"
+                                               Foreground="{DynamicResource FontOnPrimaryBrush}"
+                                               FontWeight="Bold"
+                                               Margin="0,0,5,0"
+                                               FontSize="16">
+                                    </TextBlock>
+                                    <Image Source="{DynamicResource AddIcon}"
+                                           Margin="1"
+                                           Width="23">
+
+                                    </Image>
+                                </StackPanel>
+                            </Button>
+
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="5"
+                                                  Opacity=".3"
+                                                  >
+
+                                </DropShadowEffect>
+                            </Border.Effect>
+                        </Border>
                     </Grid>
                 </Grid>
             </Border>
@@ -85,16 +116,65 @@
                     <Border.Effect>
                         <DropShadowEffect BlurRadius="10"
                                           Opacity=".5">
-                            
+
                         </DropShadowEffect>
                     </Border.Effect>
 
                     <ContentControl Margin="4">
-                        
+
                     </ContentControl>
                 </Border>
             </Grid>
         </Grid>
+
+        <Border VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                CornerRadius="15"
+                Margin="60, 30"
+                Width="150"
+                Height="45">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Background" Value="{DynamicResource PrimaryButtonBrush}"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsMenuOpen}" Value="Visible">
+                            <Setter Property="Background" Value="{DynamicResource PrimaryButtonSelectedBrush}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsMenuOpen}" Value="Collapsed">
+                            <Setter Property="Background" Value="{DynamicResource PrimaryButtonBrush}"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <Button Command="{Binding OpenMenuCommand}"
+                    telerik:CornerRadiusHelper.ClipRadius="15">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Books"
+                               FontSize="25"
+                               Foreground="{DynamicResource FontOnPrimaryBrush}"/>
+                    <Image Source="{DynamicResource MenuIcon}" Margin="20, 5, 0, 0" Width="20"/>
+                </StackPanel>
+            </Button>
+        </Border>
+
+
+        <Border VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                Background="{DynamicResource ViewBackgroundBrush}"
+                BorderThickness="2"
+                BorderBrush="{DynamicResource SplitterBrush}"
+                CornerRadius="15"
+                Visibility="{Binding IsMenuOpen}"
+                Margin="60,80,0,0">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="6"
+                                  Opacity=".4"/>
+            </Border.Effect>
+            <Grid Height="120"
+                  Width="120">
+                
+            </Grid>
+        </Border>
     </Grid>
 
 </Window>

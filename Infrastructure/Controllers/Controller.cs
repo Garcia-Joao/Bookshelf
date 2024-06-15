@@ -41,6 +41,9 @@ namespace Bookshelf.Infrastructure.Domain.Controllers {
             }
         }
 
+        public virtual List<T> GetAll() {
+            return _context.Set<T>().ToList();
+        }
         public virtual T GetById(Guid id) {
             return _context.GetDbSet<T>().Find(id)!;
         }

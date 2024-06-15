@@ -6,11 +6,15 @@ using Bookshelf.Infrastructure.Controllers;
 using Bookshelf.Infrastructure.Database;
 using Bookshelf.Infrastructure.Domain.Controllers;
 using Bookshelf.Infrastructure.Entities;
+using Bookshelf.Presentation.Models;
+using Bookshelf.Presentation.ViewModels;
 using Bookshelf.Presentation.Views;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SharpDX.Direct2D1.Effects;
 using System.Windows;
+using Telerik.Windows.Controls;
 
 namespace Bookshelf.Presentation {
     public partial class App : Application {
@@ -42,11 +46,30 @@ namespace Bookshelf.Presentation {
             builder.Services.AddTransient<Controller<BookEntity>, BookController>();
             builder.Services.AddTransient<BookService>();
 
+            builder.Services.AddTransient(services => { 
+                var authorService = services.GetRequiredService<AuthorService>(); 
+                var genreService = services.GetRequiredService<GenreService>();
+                return new MainModel(authorService, genreService); 
+            });
+
+            builder.Services.AddTransient(services => {
+                var model = services.GetRequiredService<MainModel>();
+                return new MainViewModel(model);
+            });
+
+            builder.Services.AddTransient(services => new MainWindow() {
+                DataContext = services.GetRequiredService<MainViewModel>()
+            });
+
             IHost host = builder.Build();
+
+            //MockupInsetion
+            //InsertMockup(host);
+
 
             base.OnStartup(e);
 
-            MainWindow baseWindow = new MainWindow();
+            MainWindow baseWindow = host.Services.GetService<MainWindow>();
             baseWindow.Show();
         }
 
@@ -60,6 +83,12 @@ namespace Bookshelf.Presentation {
                     context.Database.EnsureCreated();
                 }
             }
+        }
+
+        private void InsertMockup(IHost host) {
+            host.Services.GetService<GenreService>().InsertGenreMockups();
+            host.Services.GetService<AuthorService>().InsertAuthorMockups();
+            host.Services.GetService<BookService>().InsertBookMockup();
         }
     }
 

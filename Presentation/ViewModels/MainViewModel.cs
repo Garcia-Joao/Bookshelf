@@ -1,14 +1,34 @@
-﻿using Bookshelf.Presentation.Base;
+﻿using Bookshelf.Domain.DataModels;
+using Bookshelf.Presentation.Base;
+using Bookshelf.Presentation.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Bookshelf.Presentation.ViewModels
 {
     internal class MainViewModel : ViewModelBase {
+        private MainModel mainModel;
+
+        public ObservableCollection<string> Authors => mainModel.GetAuthorsNames();
+        public ObservableCollection<string> Genres => mainModel.GetGenresNames();
+
+
+        private Visibility _isMenuOpen;
+
+        public Visibility IsMenuOpen {
+            get => _isMenuOpen;
+            set {
+                _isMenuOpen = value;
+                OnPropertyChanged(nameof(IsMenuOpen));
+            }
+        }
+
         private ViewModelBase _currentViewModel;
         public ViewModelBase CurrentViewModel {
             get => _currentViewModel;
@@ -18,17 +38,22 @@ namespace Bookshelf.Presentation.ViewModels
             }
         }
 
-        public ICommand ShowBooksCommand { get; }
-        public ICommand ShowGenresCommand { get; }
-        public ICommand ShowAuthorsCommand { get; }
+        public ICommand OpenMenuCommand {  get; }
 
-        public MainViewModel() {
-            //ShowBooksCommand = new RelayCommand(o => CurrentViewModel = new BooksViewModel());
-            //ShowGenresCommand = new RelayCommand(o => CurrentViewModel = new GenresViewModel());
-            //ShowAuthorsCommand = new RelayCommand(o => CurrentViewModel = new AuthorsViewModel());
 
-            // Default view
-            //CurrentViewModel = new BooksViewModel();
+        public MainViewModel(MainModel model) {
+            mainModel = model;
+            IsMenuOpen = Visibility.Collapsed;
+
+            OpenMenuCommand = new RelayCommand(SwitchMenuState);
+        }
+
+        private void SwitchMenuState() {
+            if (IsMenuOpen == Visibility.Collapsed) {
+                IsMenuOpen = Visibility.Visible;
+            } else {
+                IsMenuOpen = Visibility.Collapsed;
+            }
         }
     }
 }

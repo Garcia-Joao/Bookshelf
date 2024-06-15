@@ -24,7 +24,7 @@ namespace Bookshelf.Presentation.Components {
         }
 
         public static readonly DependencyProperty LabelTextProperty =
-    DependencyProperty.Register("LabelText", typeof(string), typeof(LabeledComboBox), new PropertyMetadata(string.Empty));
+        DependencyProperty.Register("LabelText", typeof(string), typeof(LabeledComboBox), new PropertyMetadata(string.Empty));
 
         public string LabelText {
             get { return (string)GetValue(LabelTextProperty); }
@@ -45,6 +45,17 @@ namespace Bookshelf.Presentation.Components {
         public object SelectedComboBoxItem {
             get { return GetValue(SelectedComboBoxItemProperty); }
             set { SetValue(SelectedComboBoxItemProperty, value); }
+        }
+
+
+        private void myRadComboBox_GotFocus(object sender, RoutedEventArgs e) {
+            var comboBox = sender as Telerik.Windows.Controls.RadComboBox;
+            if (comboBox != null) {
+                // Use a dispatcher to delay the opening of the dropdown
+                Dispatcher.BeginInvoke(new Action(() => {
+                    comboBox.IsDropDownOpen = true;
+                }), System.Windows.Threading.DispatcherPriority.Input);
+            }
         }
     }
 }

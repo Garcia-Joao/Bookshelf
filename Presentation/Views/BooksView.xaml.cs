@@ -10,17 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Telerik.Windows.Controls;
 
-namespace Bookshelf.Presentation.Views {
+namespace Bookshelf.Presentation.Views
+{
     /// <summary>
-    /// Lógica interna para MainWindow.xaml
+    /// Interação lógica para BooksView.xam
     /// </summary>
-    public partial class MainWindow : Window {
-        public MainWindow() {
+    public partial class BooksView : Page
+    {
+        public BooksView()
+        {
             InitializeComponent();
-            StyleManager.ApplicationTheme = new CrystalTheme();
         }
     }
 }

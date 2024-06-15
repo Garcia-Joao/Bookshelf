@@ -11,12 +11,14 @@ namespace Bookshelf.Domain.Mappers {
         public Genre Map(GenreEntity entity) {
             return new Genre {
                 Name = entity.Name,
+                Id = entity.Id,
             };
         }
 
         public GenreEntity Map(Genre dataModel) {
             return new GenreEntity {
                 Name = dataModel.Name,
+                Id = dataModel.Id,
             };
         }
     }

@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation">
 
     <!-- Theme colors -->
     <Color x:Key="SplitterColor">#CAC4D0</Color>
@@ -7,6 +8,9 @@
     <Color x:Key="ViewBackgroundColor">#F7F2FA</Color>
     <Color x:Key="HeaderBackgroundColor">#dbd4e7</Color>
     <Color x:Key="FontColor">#4A4458</Color>
+    <Color x:Key="PrimaryButtonColor">#6750A4</Color>
+    <Color x:Key="PrimaryButtonSelectedColor">#342952</Color>
+    <Color x:Key="FontOnPrimary">#FFFFFF</Color>
 
     <!-- Brush from setted colors -->
     <SolidColorBrush x:Key="SplitterBrush" Color="{StaticResource SplitterColor}"/>
@@ -14,4 +18,13 @@
     <SolidColorBrush x:Key="ViewBackgroundBrush" Color="{StaticResource ViewBackgroundColor}"/>
     <SolidColorBrush x:Key="HeaderBackgroundBrush" Color="{StaticResource HeaderBackgroundColor}"/>
     <SolidColorBrush x:Key="FontBrush" Color="{StaticResource FontColor}"/>
+    <SolidColorBrush x:Key="PrimaryButtonBrush" Color="{StaticResource PrimaryButtonColor}"/>
+    <SolidColorBrush x:Key="PrimaryButtonSelectedBrush" Color="{StaticResource PrimaryButtonSelectedColor}"/>
+    <SolidColorBrush x:Key="FontOnPrimaryBrush" Color="{StaticResource FontOnPrimary}"/>
+
+    <!--Theme Images-->
+    <BitmapImage x:Key="SearchIcon" UriSource="pack://application:,,,/Bookshelf;component/Presentation/Icons/SearchLight.png"/>
+    <BitmapImage x:Key="AddIcon" UriSource="pack://application:,,,/Bookshelf;component/Presentation/Icons/LightAdd.png"/>
+    <BitmapImage x:Key="MenuIcon" UriSource="pack://application:,,,/Bookshelf;component/Presentation/Icons/MenuLight.png"/>
+    
 </ResourceDictionary>

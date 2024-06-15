@@ -9,15 +9,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Presentation\Icons\LightAdd.png" />
+    <None Remove="Presentation\Icons\MenuLight.png" />
+    <None Remove="Presentation\Icons\SearchDark.png" />
+    <None Remove="Presentation\Icons\SearchLight.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Page Remove="Presentation\App.xaml" />
   </ItemGroup>
 
   <ItemGroup>
     <ApplicationDefinition Include="Presentation\App.xaml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Presentation\Models\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,7 +31,16 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Telerik.UI.for.Wpf.60.Xaml.Trial" Version="2024.2.514" />
+    <PackageReference Include="Telerik.Windows.Themes.Crystal.for.Wpf.Trial" Version="2024.2.514" />
     <PackageReference Include="Telerik.Windows.Themes.Fluent.for.Wpf.Trial" Version="2024.2.514" />
+    <PackageReference Include="Telerik.Windows.Themes.Material.for.Wpf.Trial" Version="2024.2.514" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Presentation\Icons\LightAdd.png" />
+    <Resource Include="Presentation\Icons\MenuLight.png" />
+    <Resource Include="Presentation\Icons\SearchDark.png" />
+    <Resource Include="Presentation\Icons\SearchLight.png" />
   </ItemGroup>
 
 </Project>

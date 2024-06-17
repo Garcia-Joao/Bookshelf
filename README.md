@@ -17,11 +17,11 @@ Avaliation project to handle books, genres and authors.
 ## Project Structure
 ![Imgur](https://i.imgur.com/mx6RRz2.jpg)
 
-### Infrastructure Layer
-![Imgur](https://i.imgur.com/ts33hu0.jpg)
+### Presentation Layer
+![Imgur](https://i.imgur.com/CKflsXK.jpg)
 
 ### Domain Layer
 ![Imgur](https://i.imgur.com/TDigJsI.jpg)
 
-### Presentation Layer
-![Imgur](https://i.imgur.com/CKflsXK.jpg)
+### Infrastructure Layer
+![Imgur](https://i.imgur.com/ts33hu0.jpg)

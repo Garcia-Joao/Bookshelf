@@ -22,8 +22,16 @@ namespace Bookshelf.Presentation.Models {
             return authorService.GetAll();
         }
 
+        internal void Add(Author author) {
+            authorService.Add(author);
+        }
+
         internal void Remove(Guid id) {
             authorService.Remove(id);
+        }
+
+        internal void Update(Author? author) {
+            authorService.Update(author);
         }
     }
 }

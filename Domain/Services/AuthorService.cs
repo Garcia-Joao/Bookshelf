@@ -51,5 +51,13 @@ namespace Bookshelf.Domain.Services {
         internal void Remove(Guid id) {
             controller.Remove(GetEntityById(id));
         }
+
+        internal void Add(Author author) {
+            controller.Add(mapper.Map(author));
+        }
+
+        internal void Update(Author author) {
+            controller.Update(mapper.Map(author));
+        }
     }
 }

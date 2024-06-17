@@ -215,6 +215,8 @@ namespace Bookshelf.Presentation.ViewModels
             ResetFilters();
             CurrentViewModel = _serviceProvider.GetRequiredService<AuthorsViewModel>();
 
+            (CurrentViewModel as AuthorsViewModel).editAuthorCallback += EditAuthorState;
+
             CurrentViewName = "Authors";
             SearchText = "Author Name";
             ComboBoxVisibility = Visibility.Hidden;
@@ -230,6 +232,7 @@ namespace Bookshelf.Presentation.ViewModels
             ResetFilters();
             CurrentViewModel = _serviceProvider.GetRequiredService<GenresViewModel>();
 
+            (CurrentViewModel as GenresViewModel).EditGenreCallback += EditGenreState;
             CurrentViewName = "Genres";
             SearchText = "Genre Name";
             ComboBoxVisibility = Visibility.Hidden;
@@ -239,6 +242,22 @@ namespace Bookshelf.Presentation.ViewModels
             SecondMenuCommand = new RelayCommand(SetAuthorState);
             SecondMenuText = "Authors";
             SwitchMenuState();
+        }
+
+        private void EditAuthorState(Author author) {
+            OverlayVisibility = Visibility.Visible;
+            var overlayVM = new BasicCardViewModel(serviceProvider, author, true);
+            overlayVM.CancelCallback += CloseOverlay;
+            overlayVM.SaveCallBack += UpdateAuthor;
+            CurrentOverlay = overlayVM;
+        }
+
+        private void EditGenreState(Genre genre) {
+            OverlayVisibility = Visibility.Visible;
+            var overlayVM = new BasicCardViewModel(serviceProvider, genre, true);
+            overlayVM.CancelCallback += CloseOverlay;
+            overlayVM.SaveCallBack += UpdateGenre;
+            CurrentOverlay = overlayVM;
         }
 
         private void ResetFilters() {
@@ -277,19 +296,54 @@ namespace Bookshelf.Presentation.ViewModels
         private void AddGenreState() {
             OverlayVisibility = Visibility.Visible;
             var overlayVM = new BasicCardViewModel(serviceProvider, new Genre(), true);
-            overlayVM.LButtonCommand = new RelayCommand(CloseOverlay);
-
+            overlayVM.CancelCallback += CloseOverlay;
+            overlayVM.SaveCallBack += CreateNewGenre;
             CurrentOverlay = overlayVM;
         }
 
+        private void CreateNewGenre(Datamodel datamodel) {
+            if(CurrentViewModel is GenresViewModel genresVM) {
+                Genre genreToAdd = new Genre() {
+                    Name = (datamodel as Genre)!.Name
+                };
+                genresVM.CreateNewGenre(genreToAdd);
+                CloseOverlay();
+            }
+        }
+        private void UpdateGenre(Datamodel datamodel) {
+            if (CurrentViewModel is GenresViewModel genresVM) {
+                genresVM.UpdateGenre(datamodel as Genre);
+                CloseOverlay();
+            }
+        }
+
+        private void UpdateAuthor(Datamodel datamodel) {
+            if (CurrentViewModel is AuthorsViewModel authorsVM) {
+                authorsVM.UpdateAuthor(datamodel as Author);
+                CloseOverlay();
+            }
+        }
+
         private void AddAuthorState() {
-            throw new NotImplementedException();
+            OverlayVisibility = Visibility.Visible;
+            var overlayVM = new BasicCardViewModel(serviceProvider, new Author(), true);
+            overlayVM.CancelCallback += CloseOverlay;
+            overlayVM.SaveCallBack += CreateNewAuthor;
+            CurrentOverlay = overlayVM;
+        }
+
+        private void CreateNewAuthor(Datamodel datamodel) {
+            if (CurrentViewModel is AuthorsViewModel authorsVM) {
+                authorsVM.CreateNewAuthor(datamodel as Author);
+                CloseOverlay();
+            }
         }
 
         private void CloseOverlay() {
             OverlayVisibility = Visibility.Collapsed;
             CurrentOverlay = null;
         }
+
 
         private void CreateNewBook(Book book) {
             serviceProvider.GetRequiredService<BooksModel>().AddBook(book);

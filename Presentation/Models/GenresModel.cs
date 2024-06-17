@@ -17,12 +17,20 @@ namespace Bookshelf.Presentation.Models {
             return genreService.GetGenreByName(name);
         }
 
+        internal void AddGenre(Genre genre) {
+            genreService.Add(genre);
+        }
+
         internal List<Genre> GetGenresList() {
             return genreService.GetAll();
         }
 
         internal void Remove(Guid id) {
             genreService.Remove(id);
+        }
+
+        internal void Update(Genre genre) {
+            genreService.Update(genre);
         }
     }
 }

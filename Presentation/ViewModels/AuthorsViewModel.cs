@@ -15,6 +15,8 @@ namespace Bookshelf.Presentation.ViewModels {
         private ObservableCollection<BasicCardViewModel> _allCards;
         private ObservableCollection<BasicCardViewModel> _authorCards;
 
+        public Action<Author> editAuthorCallback;
+
         public ObservableCollection<BasicCardViewModel> AuthorCards {
             get => _authorCards;
             set {
@@ -34,12 +36,17 @@ namespace Bookshelf.Presentation.ViewModels {
             foreach (Author author in authors) {
                 var card = new BasicCardViewModel(serviceProvider, author, false);
                 _allCards.Add(card);
-                card.RemoveAuthorCallback += RemoveAuthor;
+                card.RemoveCallback += RemoveAuthor;
+                card.EditCallback += EditAuthor;
             }
             Filter(string.Empty);
         }
 
-        private void RemoveAuthor(Author author) {
+        private void EditAuthor(Datamodel datamodel) {
+            editAuthorCallback?.Invoke(datamodel as Author);
+        }
+
+        private void RemoveAuthor(Datamodel author) {
             authorsModel.Remove(author.Id);
             UpdateCards();
         }
@@ -55,6 +62,16 @@ namespace Bookshelf.Presentation.ViewModels {
             foreach (var card in filteredList) {
                 AuthorCards.Add(card);
             }
+        }
+
+        internal void CreateNewAuthor(Author author) {
+            authorsModel.Add(author);
+            UpdateCards();
+        }
+
+        internal void UpdateAuthor(Author? author) {
+            authorsModel.Update(author);
+            UpdateCards();
         }
     }
 }

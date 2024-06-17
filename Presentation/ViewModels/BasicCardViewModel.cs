@@ -11,8 +11,8 @@ using System.Windows.Input;
 
 namespace Bookshelf.Presentation.ViewModels {
     public class BasicCardViewModel : ViewModelBase {
-        private Author author;
-        private Genre genre;
+
+        Datamodel currentDataModel;
 
         private ICommand _lButtonCommand;
         private ICommand _rButtonCommand;
@@ -23,11 +23,12 @@ namespace Bookshelf.Presentation.ViewModels {
         private Visibility _editVisibility;
         private Visibility _readVisibility;
 
-        public Action<Author> RemoveAuthorCallback;
-        public Action<Genre> RemoveGenreCallback;
+        public Action<Datamodel> RemoveCallback;
+        public Action<Datamodel> EditCallback;
 
-        public Action<Author> SaveAuthorCallBack;
-        public Action<Genre> SaveGenreCallBack;
+        public Action<Datamodel> SaveCallBack;
+        public Action CancelCallback;
+
 
         public ICommand LButtonCommand {
             get => _lButtonCommand;
@@ -62,6 +63,11 @@ namespace Bookshelf.Presentation.ViewModels {
             set {
                 _name = value;
                 OnPropertyChanged(nameof(Name));
+                if(currentDataModel is Genre genreData) {
+                    genreData.Name = value;
+                }else if(currentDataModel is Author authorData) {
+                    authorData.Name = value;
+                }
             }
         }
         public string EditWatermark {
@@ -87,76 +93,72 @@ namespace Bookshelf.Presentation.ViewModels {
             }
         }
 
-        public BasicCardViewModel(IServiceProvider serviceProvider, Author author, bool editMode) : base(serviceProvider) {
+        public BasicCardViewModel(IServiceProvider serviceProvider, Datamodel datamodel, bool editMode) : base(serviceProvider) {
+            currentDataModel = datamodel;
             if (editMode) {
-                SetEditVisibility("Author Name");
+                SetEditState();
             } else {
-                SetViewVisibility();
+                SetReadState();
             }
-            this.author = author;
-            Name = author.Name;
+
+            if (datamodel is Author author) {
+                Name = author.Name;
+            } else if (datamodel is Genre genre) {
+                Name = genre.Name;
+            }
         }
 
-        public BasicCardViewModel(IServiceProvider serviceProvider, Genre genre, bool editMode) : base(serviceProvider) {
-            if (editMode) {
-                SetEditVisibility("Genre Name");
-            } else {
-                SetViewVisibility();
-            }
-            this.genre = genre;
-            Name = genre.Name;
-        }
-
-        private void SetViewVisibility() {
+        private void SetReadState() {
             EditVisibility = Visibility.Collapsed;
             ReadVisibility = Visibility.Visible;
             LButtonText = "Remove";
             RButtonText = "Edit";
+
+            RButtonCommand = new RelayCommand(EditConfirmed);
             LButtonCommand = new RelayCommand(SetRemoveState);
         }
 
-        private void SetRemoveState() {
+        private void SetRemoveState(object obj) {
             LButtonText = "Cancel";
             RButtonText = "Confirm";
-            LButtonCommand = new RelayCommand(SetViewVisibility);
-            RButtonCommand = new RelayCommand(RemoveCard);
+            
+            LButtonCommand = new RelayCommand(SetReadState);
+            RButtonCommand = new RelayCommand(RemovalConfirmed);
         }
 
-        private void RemoveCard() {
-            if (author != null) {
-                RemoveAuthor();
-            } else if (genre != null) {
-                RemoveGenre();
-            }
-        }
+        private void SetEditState() {
+            if (currentDataModel is Genre)
+                EditWatermark = "Genre Name";
+            else if (currentDataModel is Author)
+                EditWatermark = "Author Name";
 
-        private void RemoveGenre() {
-            RemoveGenreCallback?.Invoke(genre);
-        }
-
-        private void RemoveAuthor() {
-            RemoveAuthorCallback?.Invoke(author);
-        }
-
-        private void SetEditVisibility(string watermarkText) {
-            EditVisibility = Visibility.Visible;
             ReadVisibility = Visibility.Collapsed;
-            EditWatermark = watermarkText;
+            EditVisibility = Visibility.Visible;
             LButtonText = "Cancel";
             RButtonText = "Save";
-            RButtonCommand = new RelayCommand(SaveFunction, CanSave);
+
+            LButtonCommand = new RelayCommand(CancelConfirmed);
+            RButtonCommand = new RelayCommand(SaveConfirmed, CanSave);
+        }
+
+        private void CancelConfirmed() {
+            CancelCallback?.Invoke();
+        }
+
+        private void SaveConfirmed() {
+            SaveCallBack?.Invoke(currentDataModel);
+        }
+
+        private void EditConfirmed() {
+            EditCallback?.Invoke(currentDataModel);
+        }
+
+        private void RemovalConfirmed() {
+            RemoveCallback?.Invoke(currentDataModel);
         }
 
         private bool CanSave(object obj) {
             return Name != null && Name != string.Empty;
-        }
-
-        private void SaveFunction(object obj) {
-            if (author != null) {
-                SaveCallBack?.Invoke(author.Id);
-            } else if (genre != null) {
-                SaveCallBack?.Invoke(genre.Id);
-            }
         }
     }
 }

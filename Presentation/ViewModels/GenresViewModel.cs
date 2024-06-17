@@ -16,6 +16,8 @@ namespace Bookshelf.Presentation.ViewModels {
         private ObservableCollection<BasicCardViewModel> _allCards;
         private ObservableCollection<BasicCardViewModel> _genreCards;
 
+        public Action<Genre> EditGenreCallback;
+
         public ObservableCollection<BasicCardViewModel> GenreCards {
             get => _genreCards;
             set {
@@ -35,18 +37,22 @@ namespace Bookshelf.Presentation.ViewModels {
             foreach (Genre genre in genres) {
                 var card = new BasicCardViewModel(serviceProvider, genre, false);
                 _allCards.Add(card);
-                card.RemoveGenreCallback += RemoveGenre;
+                card.RemoveCallback += RemoveCard;
+                card.EditCallback += EditCard;
             }
             Filter(string.Empty);
         }
 
-        private void RemoveGenre(Genre genre) {
-            genresModel.Remove(genre.Id);
+        private void EditCard(Datamodel datamodel) {
+            EditGenreCallback?.Invoke(datamodel as Genre);
+        }
+
+        private void RemoveCard(Datamodel datamodel) {
+            genresModel.Remove(datamodel.Id);
             UpdateCards();
         }
 
-
-        private void UpdateCards() {
+        public void UpdateCards() {
             _allCards.Clear();
             SetCards(genresModel.GetGenresList());
         }
@@ -59,6 +65,16 @@ namespace Bookshelf.Presentation.ViewModels {
             foreach (var card in filteredList) {
                 GenreCards.Add(card);
             }
+        }
+
+        internal void CreateNewGenre(Genre genreToAdd) {
+            genresModel.AddGenre(genreToAdd);
+            UpdateCards();
+        }
+
+        internal void UpdateGenre(Genre genre) {
+            genresModel.Update(genre);
+            UpdateCards();
         }
     }
 }

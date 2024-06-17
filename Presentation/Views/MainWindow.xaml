@@ -38,9 +38,21 @@
         <DataTemplate DataType="{x:Type vm:BooksViewModel}">
             <local:BooksView/>
         </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type vm:AuthorsViewModel}">
+            <local:AuthorsView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:GenresViewModel}">
+            <local:GenresView/>
+        </DataTemplate>
 
         <DataTemplate DataType="{x:Type vm:BookOverlayViewModel}">
             <components:OverlayBookCard/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:BasicCardViewModel}">
+            <components:BasicCard/>
         </DataTemplate>
 
     </Window.Resources>
@@ -71,10 +83,12 @@
 
                         <!--Author Filter Component-->
                         <components:LabeledComboBox LabelText="Author"
+                                                    Visibility="{Binding ComboBoxVisibility, UpdateSourceTrigger=PropertyChanged}"
                                                     ComboBoxItems="{Binding Authors}"
                                                     SelectedComboBoxItem="{Binding AuthorFilter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                         <!--Genre Filter Component-->
                         <components:LabeledComboBox LabelText="Genre" 
+                                                    Visibility="{Binding ComboBoxVisibility, UpdateSourceTrigger=PropertyChanged}"
                                                     ComboBoxItems="{Binding Genres}"
                                                     SelectedComboBoxItem="{Binding GenreFilter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                     Grid.Column="1"/>
@@ -96,9 +110,9 @@
                                 <telerik:RadWatermarkTextBox BorderThickness="0"
                                                              Background="Transparent"
                                                              WatermarkBehavior="HideOnTextEntered"
-                                                             WatermarkContent="Book Name"
+                                                             WatermarkContent="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
                                                              FocusVisualStyle="{x:Null}"
-                                                             Text="{Binding BookNameFilter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                             Text="{Binding NameFilter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                              Width="142"
                                                              VerticalAlignment="Center"
                                                              telerik:CornerRadiusHelper.ClipRadius="10"
@@ -213,9 +227,11 @@
                                   Opacity=".4"/>
             </Border.Effect>
             <StackPanel>
-                <Button Style="{StaticResource FirstMenuButton}"/>
+                <Button Style="{StaticResource FirstMenuButton}"
+                        Command="{Binding FirstMenuCommand, UpdateSourceTrigger=PropertyChanged}"/>
 
-                <Button Style="{StaticResource SecondMenuButton}"/>
+                <Button Style="{StaticResource SecondMenuButton}"
+                        Command="{Binding SecondMenuCommand, UpdateSourceTrigger=PropertyChanged}"/>
 
             </StackPanel>
         </Border>

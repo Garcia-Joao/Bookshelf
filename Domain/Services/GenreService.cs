@@ -41,5 +41,18 @@ namespace Bookshelf.Domain.Services {
             List<GenreEntity> genres = controller.GetAll();
             return mapper.Map(genres.Where(g => g.Name == name).First());
         }
+
+        internal List<Genre> GetAll() {
+            var all = controller.GetAll().ToList();
+            List<Genre> returnList = new List<Genre>();
+            foreach (var genre in all) {
+                returnList.Add(mapper.Map(genre));
+            }
+            return returnList;
+        }
+
+        internal void Remove(Guid id) {
+            controller.Remove(GetEntityById(id));
+        }
     }
 }

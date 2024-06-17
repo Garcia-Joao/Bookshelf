@@ -17,8 +17,43 @@ namespace Bookshelf.Presentation.ViewModels
         private readonly MainModel _mainModel;
         private readonly IServiceProvider _serviceProvider;
 
-        public ObservableCollection<string> Authors => _mainModel.GetAuthorsNames();
-        public ObservableCollection<string> Genres => _mainModel.GetGenresNames();
+        public ObservableCollection<string> _authors;
+        public ObservableCollection<string> _genres;
+
+        public ObservableCollection<string> Authors {
+            get => _authors;
+            set {
+                _authors = value;
+                OnPropertyChanged(nameof(Authors));
+            }
+        }
+
+        public ObservableCollection<string> Genres {
+            get => _genres;
+            set {
+                _genres = value;
+                OnPropertyChanged(nameof(Genres));
+            }
+        }
+
+
+        private string _searchText;
+        public string SearchText {
+            get => _searchText;
+            set {
+                _searchText = value;
+                OnPropertyChanged(nameof(SearchText));
+            }
+        }
+
+        private Visibility _comboBoxVisibility;
+        public Visibility ComboBoxVisibility {
+            get => _comboBoxVisibility;
+            set {
+                _comboBoxVisibility = value;
+                OnPropertyChanged(nameof(ComboBoxVisibility));
+            }
+        }
 
         private string _authorFilter;
         public string AuthorFilter {
@@ -26,7 +61,7 @@ namespace Bookshelf.Presentation.ViewModels
             set {
                 _authorFilter = value;
                 OnPropertyChanged(nameof(AuthorFilter));
-                ApplyBookFilters();
+                ApplyFilters();
             }
         }
 
@@ -36,17 +71,17 @@ namespace Bookshelf.Presentation.ViewModels
             set {
                 _genreFilter = value;
                 OnPropertyChanged(nameof(GenreFilter));
-                ApplyBookFilters();
+                ApplyFilters();
             }
         }
 
-        private string _bookNameFilter;
-        public string BookNameFilter {
-            get => _bookNameFilter;
+        private string _nameFilter;
+        public string NameFilter {
+            get => _nameFilter;
             set {
-                _bookNameFilter = value;
-                OnPropertyChanged(nameof(BookNameFilter));
-                ApplyBookFilters();
+                _nameFilter = value;
+                OnPropertyChanged(nameof(NameFilter));
+                ApplyFilters();
             }
         }
 
@@ -162,21 +197,54 @@ namespace Bookshelf.Presentation.ViewModels
         private void SetBooksState() {
             CurrentViewModel = _serviceProvider.GetRequiredService<BooksViewModel>();
             (CurrentViewModel as BooksViewModel).EditCardCallback += EditBook;
+            Authors = _mainModel.GetAuthorsNames();
+            Genres = _mainModel.GetGenresNames();
 
             CurrentViewName = "Books";
+            SearchText = "Book Name";
+            ComboBoxVisibility = Visibility.Visible;
 
             FirstMenuCommand = new RelayCommand(SetGenreState);
             FirstMenuText = "Genres";
             SecondMenuCommand = new RelayCommand(SetAuthorState);
             SecondMenuText = "Authors";
+            SwitchMenuState();
         }
 
         private void SetAuthorState() {
-            throw new NotImplementedException();
+            ResetFilters();
+            CurrentViewModel = _serviceProvider.GetRequiredService<AuthorsViewModel>();
+
+            CurrentViewName = "Authors";
+            SearchText = "Author Name";
+            ComboBoxVisibility = Visibility.Hidden;
+
+            FirstMenuCommand = new RelayCommand(SetBooksState);
+            FirstMenuText = "Books";
+            SecondMenuCommand = new RelayCommand(SetGenreState);
+            SecondMenuText = "Genres";
+            SwitchMenuState();
         }
 
         private void SetGenreState() {
-            throw new NotImplementedException();
+            ResetFilters();
+            CurrentViewModel = _serviceProvider.GetRequiredService<GenresViewModel>();
+
+            CurrentViewName = "Genres";
+            SearchText = "Genre Name";
+            ComboBoxVisibility = Visibility.Hidden;
+
+            FirstMenuCommand = new RelayCommand(SetBooksState);
+            FirstMenuText = "Books";
+            SecondMenuCommand = new RelayCommand(SetAuthorState);
+            SecondMenuText = "Authors";
+            SwitchMenuState();
+        }
+
+        private void ResetFilters() {
+            AuthorFilter = null;
+            GenreFilter = null;
+            NameFilter = string.Empty;
         }
 
         private void EditBook(Guid guid) {
@@ -190,12 +258,32 @@ namespace Bookshelf.Presentation.ViewModels
 
         private void SwitchAddState() {
             if (CurrentViewModel is BooksViewModel) {
-                OverlayVisibility = Visibility.Visible;
-                var overlayVM = new BookOverlayViewModel(serviceProvider, Authors, Genres);
-                overlayVM.CancelAction += CloseOverlay;
-                overlayVM.CreateAction += CreateNewBook;
-                CurrentOverlay = overlayVM;
+                AddBookState();
+            } else if (CurrentViewModel is AuthorsViewModel) {
+                AddAuthorState();
+            } else if (CurrentViewModel is GenresViewModel) {
+                AddGenreState();
             }
+        }
+
+        private void AddBookState() {
+            OverlayVisibility = Visibility.Visible;
+            var overlayVM = new BookOverlayViewModel(serviceProvider, Authors, Genres);
+            overlayVM.CancelAction += CloseOverlay;
+            overlayVM.CreateAction += CreateNewBook;
+            CurrentOverlay = overlayVM;
+        }
+
+        private void AddGenreState() {
+            OverlayVisibility = Visibility.Visible;
+            var overlayVM = new BasicCardViewModel(serviceProvider, new Genre(), true);
+            overlayVM.LButtonCommand = new RelayCommand(CloseOverlay);
+
+            CurrentOverlay = overlayVM;
+        }
+
+        private void AddAuthorState() {
+            throw new NotImplementedException();
         }
 
         private void CloseOverlay() {
@@ -215,9 +303,13 @@ namespace Bookshelf.Presentation.ViewModels
             (CurrentViewModel as BooksViewModel).GeneralUpdate();
         }
 
-        private void ApplyBookFilters() {
+        private void ApplyFilters() {
             if (CurrentViewModel is BooksViewModel bookVm) {
-                bookVm.UpdateFilters(AuthorFilter, GenreFilter, BookNameFilter);
+                bookVm.UpdateFilters(AuthorFilter, GenreFilter, NameFilter);
+            } else if (CurrentViewModel is GenresViewModel genreVm) {
+                genreVm.Filter(NameFilter);
+            }else if(CurrentViewModel is AuthorsViewModel authorVm) {
+                authorVm.Filter(NameFilter);
             }
         }
 

@@ -9,10 +9,14 @@ using System.Threading.Tasks;
 namespace Bookshelf.Domain.Mappers {
     public class GenreMapper : IMapper<GenreEntity, Genre> {
         public Genre Map(GenreEntity entity) {
-            return new Genre {
-                Name = entity.Name,
-                Id = entity.Id,
-            };
+            if(entity == null) {
+                return new Genre();
+            } else {
+                return new Genre {
+                    Name = entity.Name,
+                    Id = entity.Id,
+                };
+            }
         }
 
         public GenreEntity Map(Genre dataModel) {

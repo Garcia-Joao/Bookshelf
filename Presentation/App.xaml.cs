@@ -49,7 +49,8 @@ namespace Bookshelf.Presentation {
             builder.Services.AddTransient<IMapper<BookEntity, Book>,BookMapper>();
             builder.Services.AddTransient<Controller<BookEntity>, BookController>();
             builder.Services.AddTransient<BookService>();
-            
+
+            builder.Services.AddTransient<BooksModel>();
             builder.Services.AddTransient(services => {
                 var bookModel = services.GetRequiredService<BooksModel>();
                 return new BooksViewModel(services ,bookModel);
@@ -57,6 +58,24 @@ namespace Bookshelf.Presentation {
 
             builder.Services.AddTransient(services => new BooksView() {
                 DataContext = services.GetRequiredService<BooksViewModel>()
+            });
+
+            builder.Services.AddTransient<AuthorsModel>();
+            builder.Services.AddTransient(services => {
+                var authorsModel = services.GetRequiredService<AuthorsModel>();
+                return new AuthorsViewModel(services, authorsModel);
+            });
+            builder.Services.AddTransient(services => new AuthorsView() {
+                DataContext = services.GetRequiredService<AuthorsViewModel>()
+            });
+
+            builder.Services.AddTransient<GenresModel>();
+            builder.Services.AddTransient(services => {
+                var genresModel = services.GetRequiredService<GenresModel>();
+                return new GenresViewModel(services, genresModel);
+            });
+            builder.Services.AddTransient(services => new GenresView() {
+                DataContext = services.GetRequiredService<GenresViewModel>()
             });
 
             builder.Services.AddTransient(services => { 
@@ -75,13 +94,6 @@ namespace Bookshelf.Presentation {
                 DataContext = services.GetRequiredService<MainViewModel>()
             });
 
-            builder.Services.AddTransient<BooksModel>();
-
-            builder.Services.AddTransient(services => new BooksView() {
-                DataContext = services.GetRequiredService<BooksViewModel>()
-            });
-
-            builder.Services.AddTransient<AuthorsModel>();
             builder.Services.AddTransient<GenresModel>();
 
             host = builder.Build();

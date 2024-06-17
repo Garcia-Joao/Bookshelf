@@ -17,5 +17,13 @@ namespace Bookshelf.Presentation.Models {
         public Author GetAuthorByName(string name) {
             return authorService.GetAuthorByName(name);
         }
+
+        public List<Author> GetAuthorsList() {
+            return authorService.GetAll();
+        }
+
+        internal void Remove(Guid id) {
+            authorService.Remove(id);
+        }
     }
 }

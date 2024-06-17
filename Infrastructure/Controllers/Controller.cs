@@ -48,10 +48,17 @@ namespace Bookshelf.Infrastructure.Domain.Controllers {
         }
 
         public virtual List<T> GetAll() {
-            return _context.GetDbSet<T>().AsNoTracking().ToList();
+            return _context.GetDbSet<T>().ToList();
         }
         public virtual T GetById(Guid id) {
-            return _context.GetDbSet<T>().AsNoTracking().First(e => e.Id == id);
+
+            T entity;
+            try {
+                entity = _context.GetDbSet<T>().First(e => e.Id == id);
+            } catch (Exception ex) {
+                entity = null;
+            }
+            return entity;
         }
     }
 }

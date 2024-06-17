@@ -26,6 +26,10 @@ namespace Bookshelf.Presentation.Models
             return bookService.GetBookById(id);
         }
 
+        public List<Author> GetAuthors() {
+            return authorService.GetAll();
+        }
+
         public ObservableCollection<string> GetAuthorsNames() {
             ObservableCollection<string> authorsNames = new ObservableCollection<string>(
                 authorService.GetAuthorsNames().OrderBy(name => name)

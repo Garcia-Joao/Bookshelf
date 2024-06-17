@@ -4,10 +4,14 @@ using Bookshelf.Infrastructure.Entities;
 namespace Bookshelf.Domain.Mappers {
     public class AuthorMapper : IMapper<AuthorEntity, Author> {
         public Author Map(AuthorEntity entity) {
-            return new Author() {
-                Id = entity.Id,
-                Name = entity.Name
-            };
+            if (entity == null) {
+                return new Author();
+            } else {
+                return new Author() {
+                    Id = entity.Id,
+                    Name = entity.Name
+                };
+            }
         }
 
         public AuthorEntity Map(Author dataModel) {

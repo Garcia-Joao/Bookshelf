@@ -1,4 +1,5 @@
-﻿using Bookshelf.Domain.Services;
+﻿using Bookshelf.Domain.DataModels;
+using Bookshelf.Domain.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,12 +14,17 @@ namespace Bookshelf.Presentation.Models
     {
         AuthorService authorService;
         GenreService genreService;
+        BookService bookService;
 
-        public MainModel(AuthorService authorService, GenreService genreService) {
+        public MainModel(AuthorService authorService, GenreService genreService, BookService bookService) {
+            this.bookService = bookService;
             this.authorService = authorService;
             this.genreService = genreService;
         }
 
+        public Book GetBookById(Guid id) {
+            return bookService.GetBookById(id);
+        }
 
         public ObservableCollection<string> GetAuthorsNames() {
             ObservableCollection<string> authorsNames = new ObservableCollection<string>(

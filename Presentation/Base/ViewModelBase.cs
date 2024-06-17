@@ -8,9 +8,15 @@ using System.Threading.Tasks;
 
 namespace Bookshelf.Presentation.Base
 {
-    public class ViewModelBase : INotifyPropertyChanged
+    public abstract class ViewModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public readonly IServiceProvider serviceProvider;
+
+        protected ViewModelBase(IServiceProvider serviceProvider) {
+            this.serviceProvider = serviceProvider;
+        }
 
         protected void OnPropertyChanged(string propertyName)
         {

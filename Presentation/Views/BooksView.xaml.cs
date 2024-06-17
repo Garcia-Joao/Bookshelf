@@ -18,11 +18,23 @@ namespace Bookshelf.Presentation.Views
     /// <summary>
     /// Interação lógica para BooksView.xam
     /// </summary>
-    public partial class BooksView : Page
+    public partial class BooksView : UserControl
     {
         public BooksView()
         {
             InitializeComponent();
+        }
+
+        private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e) {
+            ScrollViewer scrollViewer = sender as ScrollViewer;
+            if (scrollViewer != null) {
+                if (e.Delta > 0) {
+                    scrollViewer.LineUp();
+                } else {
+                    scrollViewer.LineDown();
+                }
+                e.Handled = true;
+            }
         }
     }
 }

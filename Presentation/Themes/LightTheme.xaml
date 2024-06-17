@@ -11,6 +11,8 @@
     <Color x:Key="PrimaryButtonColor">#6750A4</Color>
     <Color x:Key="PrimaryButtonSelectedColor">#342952</Color>
     <Color x:Key="FontOnPrimary">#FFFFFF</Color>
+    <Color x:Key="BorderColor">#79747E</Color>
+    <Color x:Key="SecondFontColor">#9a94a1</Color>
 
     <!-- Brush from setted colors -->
     <SolidColorBrush x:Key="SplitterBrush" Color="{StaticResource SplitterColor}"/>
@@ -18,9 +20,11 @@
     <SolidColorBrush x:Key="ViewBackgroundBrush" Color="{StaticResource ViewBackgroundColor}"/>
     <SolidColorBrush x:Key="HeaderBackgroundBrush" Color="{StaticResource HeaderBackgroundColor}"/>
     <SolidColorBrush x:Key="FontBrush" Color="{StaticResource FontColor}"/>
+    <SolidColorBrush x:Key="SecondFontBrush" Color="{StaticResource SecondFontColor}"/>
     <SolidColorBrush x:Key="PrimaryButtonBrush" Color="{StaticResource PrimaryButtonColor}"/>
     <SolidColorBrush x:Key="PrimaryButtonSelectedBrush" Color="{StaticResource PrimaryButtonSelectedColor}"/>
     <SolidColorBrush x:Key="FontOnPrimaryBrush" Color="{StaticResource FontOnPrimary}"/>
+    <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource BorderColor}"/>
 
     <!--Theme Images-->
     <BitmapImage x:Key="SearchIcon" UriSource="pack://application:,,,/Bookshelf;component/Presentation/Icons/SearchLight.png"/>

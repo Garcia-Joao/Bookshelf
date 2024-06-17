@@ -1,6 +1,7 @@
 ﻿using Bookshelf.Domain.DataModels;
 using Bookshelf.Domain.Mappers;
 using Bookshelf.Helpers;
+using Bookshelf.Infrastructure.Controllers;
 using Bookshelf.Infrastructure.Domain.Controllers;
 using Bookshelf.Infrastructure.Entities;
 
@@ -19,6 +20,11 @@ namespace Bookshelf.Domain.Services {
         public List<string> GetAuthorsNames() {
             List<AuthorEntity> authors = controller.GetAll();
             return authors.Select(author => author.Name).ToList();
+        }
+
+        public Author GetAuthorByName(string name) {
+            List<AuthorEntity> authors = controller.GetAll();
+            return mapper.Map(authors.Where(a=> a.Name == name).First());
         }
 
         public void InsertAuthorMockups() {

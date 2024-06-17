@@ -6,6 +6,7 @@ using Bookshelf.Infrastructure.Controllers;
 using Bookshelf.Infrastructure.Database;
 using Bookshelf.Infrastructure.Domain.Controllers;
 using Bookshelf.Infrastructure.Entities;
+using Bookshelf.Presentation.Components;
 using Bookshelf.Presentation.Models;
 using Bookshelf.Presentation.ViewModels;
 using Bookshelf.Presentation.Views;
@@ -18,6 +19,9 @@ using Telerik.Windows.Controls;
 
 namespace Bookshelf.Presentation {
     public partial class App : Application {
+
+        private IHost host;
+
         protected override void OnStartup(StartupEventArgs e) {
 
             HostApplicationBuilder builder = Host.CreateApplicationBuilder();
@@ -45,33 +49,60 @@ namespace Bookshelf.Presentation {
             builder.Services.AddTransient<IMapper<BookEntity, Book>,BookMapper>();
             builder.Services.AddTransient<Controller<BookEntity>, BookController>();
             builder.Services.AddTransient<BookService>();
+            
+            builder.Services.AddTransient(services => {
+                var bookModel = services.GetRequiredService<BooksModel>();
+                return new BooksViewModel(services ,bookModel);
+            });
+
+            builder.Services.AddTransient(services => new BooksView() {
+                DataContext = services.GetRequiredService<BooksViewModel>()
+            });
 
             builder.Services.AddTransient(services => { 
                 var authorService = services.GetRequiredService<AuthorService>(); 
                 var genreService = services.GetRequiredService<GenreService>();
-                return new MainModel(authorService, genreService); 
+                var bookService = services.GetRequiredService<BookService>();
+                return new MainModel(authorService, genreService, bookService); 
             });
 
             builder.Services.AddTransient(services => {
                 var model = services.GetRequiredService<MainModel>();
-                return new MainViewModel(model);
+                return new MainViewModel(model, services);
             });
 
             builder.Services.AddTransient(services => new MainWindow() {
                 DataContext = services.GetRequiredService<MainViewModel>()
             });
 
-            IHost host = builder.Build();
+            builder.Services.AddTransient<BooksModel>();
+
+            builder.Services.AddTransient(services => new BooksView() {
+                DataContext = services.GetRequiredService<BooksViewModel>()
+            });
+
+            builder.Services.AddTransient<AuthorsModel>();
+            builder.Services.AddTransient<GenresModel>();
+
+            host = builder.Build();
 
             //MockupInsetion
             //InsertMockup(host);
-
 
             base.OnStartup(e);
 
             MainWindow baseWindow = host.Services.GetService<MainWindow>();
             baseWindow.Show();
         }
+
+
+        protected override void OnExit(ExitEventArgs e) {
+            if (host != null) {
+                host.Dispose();
+            }
+            base.OnExit(e);
+        }
+
 
         private void CreateDatabase(IServiceCollection services, string connectionString) {
             var optionsBuilder = new DbContextOptionsBuilder<DatabaseContext>();

@@ -9,7 +9,7 @@
 
     <StackPanel Margin="10, 15">
         <TextBlock Margin="5,5,0,5"
-                   d:Text="TEST"
+                   d:Text="PlaceHolder"
                    Foreground="{DynamicResource FontBrush}"
                    FontWeight="SemiBold"
                    Text="{Binding LabelText, RelativeSource={RelativeSource AncestorType=UserControl}}"/>

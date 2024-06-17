@@ -15,6 +15,16 @@ namespace Bookshelf.Domain.Services {
             this.genreService = genreService;
         }
 
+        public List<Book> GetAllBooks() {
+            var itens = controller.GetAll();
+            List<Book> returnBooks = new List<Book>();
+
+            foreach (var item in itens) {
+                returnBooks.Add(mapper.Map(item));
+            }
+            return returnBooks;
+        }
+
         public void InsertBookMockup() {
             string[] bookNames = JsonHelper.GetConfigurationDataArray("MockupData", "Books");
             foreach (string book in bookNames) {
@@ -28,10 +38,28 @@ namespace Bookshelf.Domain.Services {
             }
         }
 
+        internal void AddNewBook(Book bookToAdd) {
+            BookEntity newBook = mapper.Map(bookToAdd);
+            controller.Add(newBook);
+        }
+
+        internal Book GetBookById(Guid id) {
+            return mapper.Map(controller.GetById(id));
+        }
+
+        internal void RemoveBook(Guid bookId) {
+            controller.Remove(GetEntityById(bookId));
+        }
+
+        internal void UpdateBook(Book book) {
+            controller.Update(mapper.Map(book));
+        }
+
         private string GetLoremIpsum() {
-            return  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus risus ipsum, pretium sit amet facilisis at, aliquet vel eros. " +
+            return "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus risus ipsum, pretium sit amet facilisis at, aliquet vel eros. " +
                     "Maecenas a dui elit. Nullam egestas ipsum eget pulvinar mollis. Integer nec ligula vel erat feugiat elementum sed sit amet purus. " +
-                    "Vivamus et felis tempus, fermentum turpis ac, semper dolor.";
+                    "Maecenas a dui elit. Nullam egestas ipsum eget pulvinar mollis. Integer nec ligula vel erat feugiat elementum sed sit amet purus." +
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus risus ipsum, pretium sit amet facilisis at, aliquet vel eros.";
         }
     }
 }

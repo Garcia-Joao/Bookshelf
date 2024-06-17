@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Presentation\Views\BaseWindow.xaml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Presentation\Icons\LightAdd.png" />
     <None Remove="Presentation\Icons\MenuLight.png" />
     <None Remove="Presentation\Icons\SearchDark.png" />
@@ -17,6 +21,7 @@
 
   <ItemGroup>
     <Page Remove="Presentation\App.xaml" />
+    <Page Remove="Presentation\Views\BaseWindow.xaml" />
   </ItemGroup>
 
   <ItemGroup>

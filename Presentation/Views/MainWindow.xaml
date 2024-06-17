@@ -10,7 +10,41 @@
         mc:Ignorable="d"
         ResizeMode="NoResize"
         WindowStyle="SingleBorderWindow"
-        Title="Bookshelf" Height="600" Width="1200">
+        Title="Bookshelf" Height="600" Width="1020">
+
+
+    <Window.Resources>
+        <Style x:Key="MenuButton" TargetType="Button">
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryButtonBrush}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Width" Value="140"/>
+            <Setter Property="Height" Value="45"/>
+        </Style>
+
+        <Style x:Key="FirstMenuButton" BasedOn="{StaticResource MenuButton}" TargetType="Button">
+            <Setter Property="Content" Value="{Binding FirstMenuText}"/>
+            <Setter Property="telerik:CornerRadiusHelper.ClipRadius" Value="14,14,0,0"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+        </Style>
+
+        <Style x:Key="SecondMenuButton" BasedOn="{StaticResource MenuButton}" TargetType="Button">
+            <Setter Property="Content" Value="{Binding SecondMenuText}"/>
+            <Setter Property="telerik:CornerRadiusHelper.ClipRadius" Value="0,0,14,14"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+
+
+        <DataTemplate DataType="{x:Type vm:BooksViewModel}">
+            <local:BooksView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:BookOverlayViewModel}">
+            <components:OverlayBookCard/>
+        </DataTemplate>
+
+    </Window.Resources>
+    
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
@@ -37,10 +71,12 @@
 
                         <!--Author Filter Component-->
                         <components:LabeledComboBox LabelText="Author"
-                                                    ComboBoxItems="{Binding Authors}"/>
+                                                    ComboBoxItems="{Binding Authors}"
+                                                    SelectedComboBoxItem="{Binding AuthorFilter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                         <!--Genre Filter Component-->
                         <components:LabeledComboBox LabelText="Genre" 
                                                     ComboBoxItems="{Binding Genres}"
+                                                    SelectedComboBoxItem="{Binding GenreFilter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                     Grid.Column="1"/>
 
                         <!--Book Search Component-->
@@ -62,7 +98,8 @@
                                                              WatermarkBehavior="HideOnTextEntered"
                                                              WatermarkContent="Book Name"
                                                              FocusVisualStyle="{x:Null}"
-                                                             Width="161"
+                                                             Text="{Binding BookNameFilter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                             Width="142"
                                                              VerticalAlignment="Center"
                                                              telerik:CornerRadiusHelper.ClipRadius="10"
                                                              />
@@ -79,7 +116,8 @@
                                 Margin="30,35,30,15"
                                 Grid.Column="3">
                             <Button telerik:CornerRadiusHelper.ClipRadius="15"
-                                    FocusVisualStyle="{x:Null}">
+                                    FocusVisualStyle="{x:Null}"
+                                    Command="{Binding AddCommand}">
                                 <StackPanel Orientation="Horizontal"
                                             VerticalAlignment="Center">
                                     <TextBlock Text="ADD"
@@ -120,7 +158,9 @@
                         </DropShadowEffect>
                     </Border.Effect>
 
-                    <ContentControl Margin="4">
+                    <ContentControl Margin="4" Content="{Binding CurrentViewModel}"
+                                    Width="auto"
+                                    Height="445">
 
                     </ContentControl>
                 </Border>
@@ -149,7 +189,7 @@
             <Button Command="{Binding OpenMenuCommand}"
                     telerik:CornerRadiusHelper.ClipRadius="15">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Books"
+                    <TextBlock Text="{Binding CurrentViewName}"
                                FontSize="25"
                                Foreground="{DynamicResource FontOnPrimaryBrush}"/>
                     <Image Source="{DynamicResource MenuIcon}" Margin="20, 5, 0, 0" Width="20"/>
@@ -161,20 +201,48 @@
         <Border VerticalAlignment="Top"
                 HorizontalAlignment="Left"
                 Background="{DynamicResource ViewBackgroundBrush}"
-                BorderThickness="2"
-                BorderBrush="{DynamicResource SplitterBrush}"
+                BorderThickness="1"
+                BorderBrush="{DynamicResource BorderBrush}"
                 CornerRadius="15"
+                Margin="60,80,0,0"
                 Visibility="{Binding IsMenuOpen}"
-                Margin="60,80,0,0">
+                >
+
             <Border.Effect>
                 <DropShadowEffect BlurRadius="6"
                                   Opacity=".4"/>
             </Border.Effect>
-            <Grid Height="120"
-                  Width="120">
-                
-            </Grid>
-        </Border>
-    </Grid>
+            <StackPanel>
+                <Button Style="{StaticResource FirstMenuButton}"/>
 
+                <Button Style="{StaticResource SecondMenuButton}"/>
+
+            </StackPanel>
+        </Border>
+
+        <!--Overlay content-->
+        <Grid Visibility="{Binding OverlayVisibility, UpdateSourceTrigger=PropertyChanged}"
+              d:Visibility="Collapsed">
+            <Rectangle>
+                <Rectangle.Fill>
+                    <VisualBrush Visual="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
+                </Rectangle.Fill>
+                <Rectangle.Effect>
+                    <BlurEffect Radius="10"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle Fill="#80000000"/>
+
+            <Grid>
+                <!-- This content will be on top of the blurred background -->
+                <ContentControl Margin="200, 100"
+                                Content="{Binding CurrentOverlay, UpdateSourceTrigger=PropertyChanged}"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center">
+                    
+                </ContentControl>
+            </Grid>
+        </Grid>
+
+    </Grid>
 </Window>

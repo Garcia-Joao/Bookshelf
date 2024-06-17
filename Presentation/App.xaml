@@ -2,9 +2,11 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
-             xmlns:local="clr-namespace:Bookshelf.Presentation">
+             xmlns:local="clr-namespace:Bookshelf.Presentation"
+             xmlns:view="clr-namespace:Bookshelf.Presentation.Views"
+             xmlns:vms="clr-namespace:Bookshelf.Presentation.ViewModels">
     <Application.Resources>
-        <ResourceDictionary>    
+        <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Themes/LightTheme.xaml"/>
                 <ResourceDictionary Source="/Telerik.Windows.Themes.Fluent;component/Themes/System.Windows.xaml"/>

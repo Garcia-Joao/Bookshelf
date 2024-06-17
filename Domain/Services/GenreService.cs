@@ -36,5 +36,10 @@ namespace Bookshelf.Domain.Services {
             int randomIndex = rnd.Next(genres.Count);
             return mapper.Map(genres[randomIndex]);
         }
+
+        internal Genre GetGenreByName(string name) {
+            List<GenreEntity> genres = controller.GetAll();
+            return mapper.Map(genres.Where(g => g.Name == name).First());
+        }
     }
 }

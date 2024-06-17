@@ -1,0 +1,127 @@
+﻿<UserControl x:Class="Bookshelf.Presentation.Components.OverlayBookCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Bookshelf.Presentation.Components"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             mc:Ignorable="d">
+    <Grid Margin="10">
+        <Border Width="300"
+               Height="320"
+               Background="{DynamicResource ViewBackgroundBrush}"
+               BorderBrush="{DynamicResource BorderBrush}"
+               BorderThickness="1"
+               CornerRadius="15">
+            <StackPanel>
+                <Border Margin="10,10"
+                        BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="15">
+                    <telerik:RadWatermarkTextBox Text="{Binding BookTitle, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                 WatermarkContent="Book Name"
+                                                 telerik:CornerRadiusHelper.ClipRadius="15"
+                                                 BorderThickness="0"
+                                                 FontSize="22"
+                                                 FontWeight="SemiBold"
+                                                 HorizontalAlignment="Left"
+                                                 Foreground="{DynamicResource FontBrush}" 
+                                                 Width="276"/>
+                </Border>
+
+                <Border Margin="20,-5"
+                        CornerRadius="15"
+                        BorderThickness="1"
+                        BorderBrush="{DynamicResource BorderBrush}">
+                    <telerik:RadComboBox SelectedItem="{Binding AuthorName}"
+                                         ItemsSource="{Binding Authors, UpdateSourceTrigger=PropertyChanged}"
+                                         GotFocus="RadComboBox_GotFocus"
+                                         EmptyText="Author"
+                                         IsEditable="True"
+                                         AutoCompleteSelectionMode="FullMatch"
+                                         Focusable="True"
+                                         IsFilteringEnabled="True"
+                                         TextSearchMode="Contains"
+                                         FontSize="12"
+                                         BorderThickness="0"
+                                         HorizontalAlignment="Left"
+                                         telerik:CornerRadiusHelper.ClipRadius="15"
+                                         Foreground="{DynamicResource FontBrush}" Width="256"/>
+                </Border>
+
+                <!--Splitter-->
+                <Border BorderBrush="{DynamicResource BorderBrush}"
+                       Margin="0,10,0,0"
+                       BorderThickness=".5"/>
+
+                <Border Margin="20, 5"
+                        CornerRadius="15"
+                        BorderThickness="1"
+                        Width="120"
+                        HorizontalAlignment="Left"
+                        BorderBrush="{DynamicResource BorderBrush}">
+                    <telerik:RadComboBox SelectedItem="{Binding GenreName}"
+                                         ItemsSource="{Binding Genres, UpdateSourceTrigger=PropertyChanged}"
+                                         GotFocus="RadComboBox_GotFocus"
+                                         EmptyText="Genre"
+                                         IsEditable="True"
+                                         AutoCompleteSelectionMode="FullMatch"
+                                         Focusable="True"
+                                         IsFilteringEnabled="True"
+                                         TextSearchMode="Contains"
+                                         FontSize="12"
+                                         BorderThickness="0"
+                                         telerik:CornerRadiusHelper.ClipRadius="15"
+                                         Foreground="{DynamicResource FontBrush}"/>
+                </Border>
+
+                <ScrollViewer Margin="20,10,20,0"
+                             Height="115"
+                             HorizontalScrollBarVisibility="Disabled"
+                             VerticalScrollBarVisibility="Auto">
+                    <telerik:RadWatermarkTextBox TextWrapping="WrapWithOverflow"
+                                                 WatermarkContent="Book Description"
+                                                 VerticalContentAlignment="Top"
+                                                 HorizontalContentAlignment="Left"
+                                                 Margin="5,0"
+                                                 Foreground="{DynamicResource SecondFontBrush}"
+                                                 Text="{Binding BookDescription}"/>
+                </ScrollViewer>
+
+                <Grid Height="45" VerticalAlignment="Bottom"
+                      Margin="0,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border BorderBrush="{DynamicResource BorderBrush}"
+                           BorderThickness="1"
+                           CornerRadius="10"
+                           telerik:CornerRadiusHelper.ClipRadius="10"
+                           Margin="10, 5">
+                        <Button Background="Transparent"
+                               Foreground="{DynamicResource FontBrush}"
+                               Command="{Binding CancelCommand, UpdateSourceTrigger=PropertyChanged}"
+                               Content="Cancel"
+                               FontWeight="SemiBold"/>
+                    </Border>
+
+                    <Border Grid.Column="1"
+                           Background="{DynamicResource PrimaryButtonBrush}"
+                           BorderThickness="1"
+                           CornerRadius="10"
+                           Margin="10, 5">
+                        <Button Background="Transparent"
+                               telerik:CornerRadiusHelper.ClipRadius="10"
+                               Command="{Binding SaveCommand, UpdateSourceTrigger=PropertyChanged}"
+                               Foreground="{DynamicResource FontOnPrimaryBrush}"
+                               Content="Save"
+                               FontWeight="Bold"/>
+                    </Border>
+
+                </Grid>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

@@ -1,5 +1,6 @@
 ﻿using Bookshelf.Infrastructure.Database;
 using Bookshelf.Infrastructure.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,26 +27,31 @@ namespace Bookshelf.Infrastructure.Domain.Controllers {
         public virtual void Remove(T entityToRemove) {
             var entity = _context.GetDbSet<T>().Find(entityToRemove.Id);
             if (entity != null) {
-                entity.Deleted = DateTime.UtcNow;
-                entity.IsDeleted = true;
+                _context.Remove(entity);
                 _context.SaveChanges();
             }
         }
 
         public virtual void Update(T entityToUpdate) {
-            var entity = _context.GetDbSet<T>().Find(entityToUpdate.Id);
+
+            var dbSet = _context.GetDbSet<T>();
+            var entity = dbSet.Find(entityToUpdate.Id);
+
             if (entity != null) {
+                _context.Entry(entity).CurrentValues.SetValues(entityToUpdate);
                 entity.Updated = DateTime.UtcNow;
-                _context.GetDbSet<T>().Update(entity);
+                _context.Entry(entity).State = EntityState.Modified;
                 _context.SaveChanges();
+            } else {
+                throw new InvalidOperationException("Entity not found in the database.");
             }
         }
 
         public virtual List<T> GetAll() {
-            return _context.Set<T>().ToList();
+            return _context.GetDbSet<T>().AsNoTracking().ToList();
         }
         public virtual T GetById(Guid id) {
-            return _context.GetDbSet<T>().Find(id)!;
+            return _context.GetDbSet<T>().AsNoTracking().First(e => e.Id == id);
         }
     }
 }

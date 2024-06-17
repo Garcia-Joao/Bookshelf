@@ -11,7 +11,6 @@ namespace Bookshelf.Presentation.Base
     public abstract class ViewModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-
         public readonly IServiceProvider serviceProvider;
 
         protected ViewModelBase(IServiceProvider serviceProvider) {

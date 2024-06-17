@@ -1,0 +1,33 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Theme colors -->
+    <Color x:Key="SplitterColor">#938F99</Color>
+    <Color x:Key="WindowBackgroundColor">#141218</Color>
+    <Color x:Key="ViewBackgroundColor">#1D1B20</Color>
+    <Color x:Key="HeaderBackgroundColor">#2B2930</Color>
+    <Color x:Key="FontColor">#D0BCFF</Color>
+    <Color x:Key="PrimaryButtonColor">#D0BCFF</Color>
+    <Color x:Key="PrimaryButtonSelectedColor">#9284b3</Color>
+    <Color x:Key="FontOnPrimary">#381E72</Color>
+    <Color x:Key="BorderColor">#938F99</Color>
+    <Color x:Key="SecondFontColor">#E6E0E9</Color>
+
+    <!-- Brush from setted colors -->
+    <SolidColorBrush x:Key="SplitterBrush" Color="{StaticResource SplitterColor}"/>
+    <SolidColorBrush x:Key="WindowBackgroundBrush" Color="{StaticResource WindowBackgroundColor}"/>
+    <SolidColorBrush x:Key="ViewBackgroundBrush" Color="{StaticResource ViewBackgroundColor}"/>
+    <SolidColorBrush x:Key="HeaderBackgroundBrush" Color="{StaticResource HeaderBackgroundColor}"/>
+    <SolidColorBrush x:Key="FontBrush" Color="{StaticResource FontColor}"/>
+    <SolidColorBrush x:Key="SecondFontBrush" Color="{StaticResource SecondFontColor}"/>
+    <SolidColorBrush x:Key="PrimaryButtonBrush" Color="{StaticResource PrimaryButtonColor}"/>
+    <SolidColorBrush x:Key="PrimaryButtonSelectedBrush" Color="{StaticResource PrimaryButtonSelectedColor}"/>
+    <SolidColorBrush x:Key="FontOnPrimaryBrush" Color="{StaticResource FontOnPrimary}"/>
+    <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource BorderColor}"/>
+
+    <!--Theme Images-->
+    <BitmapImage x:Key="SearchIcon" UriSource="pack://application:,,,/Bookshelf;component/Presentation/Icons/SearchLight.png"/>
+    <BitmapImage x:Key="AddIcon" UriSource="pack://application:,,,/Bookshelf;component/Presentation/Icons/LightAdd.png"/>
+    <BitmapImage x:Key="MenuIcon" UriSource="pack://application:,,,/Bookshelf;component/Presentation/Icons/MenuLight.png"/>
+
+</ResourceDictionary>

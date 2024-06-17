@@ -29,14 +29,13 @@ namespace Bookshelf.Infrastructure.Domain.Controllers {
             if (entity != null) {
                 _context.Remove(entity);
                 _context.SaveChanges();
+            } else {
+                throw new InvalidOperationException("Entity not found in the database.");
             }
         }
 
         public virtual void Update(T entityToUpdate) {
-
-            var dbSet = _context.GetDbSet<T>();
-            var entity = dbSet.Find(entityToUpdate.Id);
-
+            var entity = _context.GetDbSet<T>().Find(entityToUpdate.Id);
             if (entity != null) {
                 _context.Entry(entity).CurrentValues.SetValues(entityToUpdate);
                 entity.Updated = DateTime.UtcNow;
@@ -50,9 +49,8 @@ namespace Bookshelf.Infrastructure.Domain.Controllers {
         public virtual List<T> GetAll() {
             return _context.GetDbSet<T>().ToList();
         }
-        public virtual T GetById(Guid id) {
-
-            T entity;
+        public virtual T? GetById(Guid id) {
+            T? entity;
             try {
                 entity = _context.GetDbSet<T>().First(e => e.Id == id);
             } catch (Exception ex) {

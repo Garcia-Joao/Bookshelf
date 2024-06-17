@@ -17,6 +17,7 @@ namespace Bookshelf.Presentation.ViewModels
         private readonly MainModel _mainModel;
         private readonly IServiceProvider _serviceProvider;
 
+
         public ObservableCollection<string> _authors;
         public ObservableCollection<string> _genres;
 
@@ -27,7 +28,6 @@ namespace Bookshelf.Presentation.ViewModels
                 OnPropertyChanged(nameof(Authors));
             }
         }
-
         public ObservableCollection<string> Genres {
             get => _genres;
             set {
@@ -35,7 +35,6 @@ namespace Bookshelf.Presentation.ViewModels
                 OnPropertyChanged(nameof(Genres));
             }
         }
-
 
         private string _searchText;
         public string SearchText {
@@ -130,13 +129,12 @@ namespace Bookshelf.Presentation.ViewModels
                 OnPropertyChanged(nameof(IsMenuOpen));
             }
         }
+
         private ViewModelBase _currentOverlay;
         private ViewModelBase _currentViewModel;
 
 
         public ICommand OpenMenuCommand { get; }
-
-
         private ICommand _addCommand;
         private ICommand _firstMenuCommand;
         private ICommand _secondMenuCommand;

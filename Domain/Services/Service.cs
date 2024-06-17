@@ -20,12 +20,11 @@ namespace Bookshelf.Domain.Services {
         }
 
         protected E GetEntityById(Guid id) {
-            return controller.GetById(id) ?? null;
+            return controller.GetById(id);
         }
 
         public D GetDatamodelById(Guid id) {
-
-            return mapper.Map(GetEntityById(id)) ?? null;
+            return mapper.Map(GetEntityById(id));
         }
     }
 }

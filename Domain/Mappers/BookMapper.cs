@@ -23,8 +23,8 @@ namespace Bookshelf.Domain.Mappers {
                 Id = entity.Id,
                 title = entity.Title,
                 description = entity.Description,
-                genre = _genreService.GetDatamodelById(entity.Genre_Id) ?? null,
-                author = _authorService.GetDatamodelById(entity.Author_Id) ?? null,
+                genre = _genreService.GetDatamodelById(entity.Genre_Id),
+                author = _authorService.GetDatamodelById(entity.Author_Id),
             };
         }
 

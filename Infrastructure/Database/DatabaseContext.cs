@@ -14,11 +14,10 @@ namespace Bookshelf.Infrastructure.Database
         }
 
         public DbSet<T> GetDbSet<T>() where T : Entity {
-            var property = typeof(DatabaseContext).GetProperties()
-                .FirstOrDefault(p => p.PropertyType == typeof(DbSet<T>));
+            var property = typeof(DatabaseContext).GetProperties().FirstOrDefault(p => p.PropertyType == typeof(DbSet<T>));
 
             if (property != null) {
-                return property.GetValue(this) as DbSet<T>;
+                return (property.GetValue(this) as DbSet<T>)!;
             }
 
             throw new InvalidOperationException($"DbSet of type {typeof(T).Name} not found in DatabaseContext.");

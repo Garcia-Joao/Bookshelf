@@ -6,16 +6,13 @@ using Bookshelf.Infrastructure.Controllers;
 using Bookshelf.Infrastructure.Database;
 using Bookshelf.Infrastructure.Domain.Controllers;
 using Bookshelf.Infrastructure.Entities;
-using Bookshelf.Presentation.Components;
 using Bookshelf.Presentation.Models;
 using Bookshelf.Presentation.ViewModels;
 using Bookshelf.Presentation.Views;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SharpDX.Direct2D1.Effects;
 using System.Windows;
-using Telerik.Windows.Controls;
 
 namespace Bookshelf.Presentation {
     public partial class App : Application {
@@ -23,14 +20,11 @@ namespace Bookshelf.Presentation {
         private IHost host;
 
         protected override void OnStartup(StartupEventArgs e) {
-
             HostApplicationBuilder builder = Host.CreateApplicationBuilder();
-
             string connectionString = JsonHelper.GetConfigurationData("ConnectionStrings", "SQLConnectionString");
 
-            CreateDatabase(builder.Services, connectionString);
-
             //DatabaseCreation
+            CreateDatabase(builder.Services, connectionString);
             builder.Services.AddDbContext<DatabaseContext>(options =>
              options.UseSqlServer(connectionString),
              ServiceLifetime.Scoped);
@@ -93,8 +87,6 @@ namespace Bookshelf.Presentation {
             builder.Services.AddTransient(services => new MainWindow() {
                 DataContext = services.GetRequiredService<MainViewModel>()
             });
-
-            builder.Services.AddTransient<GenresModel>();
 
             host = builder.Build();
 

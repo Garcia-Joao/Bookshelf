@@ -15,6 +15,8 @@ Avaliation project to handle books, genres and authors.
 ![Imgur](https://i.imgur.com/mcrGGKP.png)
 
 ## Project Structure
+-The classes of the project are constructed at the app.xaml.cs, using the dependency injection logic.
+
 ![Imgur](https://i.imgur.com/mx6RRz2.jpg)
 
 ### Presentation Layer

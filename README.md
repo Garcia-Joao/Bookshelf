@@ -4,8 +4,8 @@
 Avaliation project to handle books, genres and authors.
 
 ## Settings
-- The default database creation is made into the localhost SQL Server, to a custom connection string you can find the configuration file into "Configuration/appsettings.json".
-- Into the "Presentation/app.xaml.cs" you can find a comment "//InsertMockup(host)", if this section is not commented, the project will insert some mockup, books, genres and authors, everytime that the project is executed
+- The default database creation is made into the localhost SQL Server, to a custom connection string you can find the configuration file into __"Configuration/appsettings.json"__.
+- Into the __"Presentation/app.xaml.cs"__ you can find a comment __"//InsertMockup(host)"__, if this section is not commented, the project will insert some mockup, books, genres and authors, everytime that the project is executed
 
 ## Features
 - Visualize, create, remove, and edit books, genres and authors.

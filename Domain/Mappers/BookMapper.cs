@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Bookshelf.Domain.Mappers {
-    public class BookMapper : IMapper<BookEntity, Book> {
+    public class BookMapper : Mapper<BookEntity, Book> {
         GenreService _genreService;
         AuthorService _authorService;
 
@@ -18,23 +18,23 @@ namespace Bookshelf.Domain.Mappers {
             _authorService = authorService;
         }
 
-        public Book Map(BookEntity entity) {
+        public override Book Map(BookEntity entity) {
             return new Book() {
                 Id = entity.Id,
                 title = entity.Title,
-                description = entity.Description,
+                description = entity.Description!,
                 genre = _genreService.GetDatamodelById(entity.Genre_Id),
                 author = _authorService.GetDatamodelById(entity.Author_Id),
             };
         }
 
-        public BookEntity Map(Book dataModel) {
+        public override BookEntity Map(Book dataModel) {
             return new BookEntity() {
                 Id = dataModel.Id,
                 Title = dataModel.title,
                 Description = dataModel.description,
-                Author_Id = dataModel.author.Id,
-                Genre_Id = dataModel.genre.Id
+                Author_Id = dataModel.author!.Id,
+                Genre_Id = dataModel.genre!.Id
             };
         }
     }

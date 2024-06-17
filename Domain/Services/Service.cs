@@ -8,9 +8,9 @@ namespace Bookshelf.Domain.Services {
                                         where D: Datamodel
     {
         protected readonly Controller<E> controller;
-        protected readonly IMapper<E, D> mapper;
+        protected readonly Mapper<E, D> mapper;
 
-        protected Service(Controller<E> controller, IMapper<E, D> mapper) {
+        protected Service(Controller<E> controller, Mapper<E, D> mapper) {
             this.controller = controller;
             this.mapper = mapper;
         }
@@ -20,7 +20,7 @@ namespace Bookshelf.Domain.Services {
         }
 
         protected E GetEntityById(Guid id) {
-            return controller.GetById(id);
+            return controller.GetById(id)!;
         }
 
         public D GetDatamodelById(Guid id) {

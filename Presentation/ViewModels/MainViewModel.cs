@@ -267,7 +267,7 @@ namespace Bookshelf.Presentation.ViewModels
         private void EditBook(Guid guid) {
             OverlayVisibility = Visibility.Visible;
             var book = _mainModel.GetBookById(guid);
-            var overlayVM = new BookOverlayViewModel(serviceProvider, book.Id, book.title, book.description, book.author, book.genre ,Authors, Genres);
+            var overlayVM = new BookOverlayViewModel(serviceProvider, book.Id, book.title, book.description, book.author!, book.genre! ,Authors, Genres);
             overlayVM.CancelAction += CloseOverlay;
             overlayVM.CreateAction += UpdateBook;
             CurrentOverlay = overlayVM;
@@ -310,7 +310,7 @@ namespace Bookshelf.Presentation.ViewModels
         }
         private void UpdateGenre(Datamodel datamodel) {
             if (CurrentViewModel is GenresViewModel genresVM) {
-                genresVM.UpdateGenre(datamodel as Genre);
+                genresVM.UpdateGenre((datamodel as Genre)!);
                 CloseOverlay();
             }
         }
@@ -332,7 +332,7 @@ namespace Bookshelf.Presentation.ViewModels
 
         private void CreateNewAuthor(Datamodel datamodel) {
             if (CurrentViewModel is AuthorsViewModel authorsVM) {
-                authorsVM.CreateNewAuthor(datamodel as Author);
+                authorsVM.CreateNewAuthor((datamodel as Author)!);
                 CloseOverlay();
             }
         }

@@ -10,19 +10,14 @@ namespace Bookshelf.Domain.Services {
         AuthorService authorService;
         GenreService genreService;
 
-        public BookService(Controller<BookEntity> controller, IMapper<BookEntity, Book> mapper, AuthorService authorService, GenreService genreService) : base(controller, mapper) {
+        public BookService(Controller<BookEntity> controller, Mapper<BookEntity, Book> mapper, AuthorService authorService, GenreService genreService) : base(controller, mapper) {
             this.authorService = authorService;
             this.genreService = genreService;
         }
 
         public List<Book> GetAllBooks() {
-            var itens = controller.GetAll();
-            List<Book> returnBooks = new List<Book>();
-
-            foreach (var item in itens) {
-                returnBooks.Add(mapper.Map(item));
-            }
-            return returnBooks;
+            var books = controller.GetAll();
+            return mapper.Map(books);
         }
 
         public void InsertBookMockup() {
@@ -44,7 +39,7 @@ namespace Bookshelf.Domain.Services {
         }
 
         internal Book GetBookById(Guid id) {
-            return mapper.Map(controller.GetById(id));
+            return mapper.Map(controller.GetById(id)!);
         }
 
         internal void RemoveBook(Guid bookId) {

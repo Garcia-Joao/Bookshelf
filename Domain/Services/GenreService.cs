@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Bookshelf.Domain.Services {
     public class GenreService : Service<GenreEntity, Genre> {
-        public GenreService(Controller<GenreEntity> controller, IMapper<GenreEntity, Genre> mapper) : base(controller, mapper) {
+        public GenreService(Controller<GenreEntity> controller, Mapper<GenreEntity, Genre> mapper) : base(controller, mapper) {
         }
 
         public List<string> GetGenresNames() {
@@ -43,12 +43,8 @@ namespace Bookshelf.Domain.Services {
         }
 
         internal List<Genre> GetAll() {
-            var all = controller.GetAll().ToList();
-            List<Genre> returnList = new List<Genre>();
-            foreach (var genre in all) {
-                returnList.Add(mapper.Map(genre));
-            }
-            return returnList;
+            var allGenres = controller.GetAll().ToList();
+            return mapper.Map(allGenres);
         }
 
         internal void Remove(Guid id) {

@@ -7,5 +7,7 @@ namespace Bookshelf.Domain.Mappers {
     {
         public D Map(E entity);
         public E Map(D dataModel);
+        public List<E> Map(List<D> dataModels);
+        public List<D> Map(List<E> entities);
     }
 }

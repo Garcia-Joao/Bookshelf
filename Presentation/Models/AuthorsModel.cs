@@ -30,7 +30,7 @@ namespace Bookshelf.Presentation.Models {
             authorService.Remove(id);
         }
 
-        internal void Update(Author? author) {
+        internal void Update(Author author) {
             authorService.Update(author);
         }
     }

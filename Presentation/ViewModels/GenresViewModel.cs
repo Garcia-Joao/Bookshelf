@@ -44,7 +44,7 @@ namespace Bookshelf.Presentation.ViewModels {
         }
 
         private void EditCard(Datamodel datamodel) {
-            EditGenreCallback?.Invoke(datamodel as Genre);
+            EditGenreCallback?.Invoke((datamodel as Genre)!);
         }
 
         private void RemoveCard(Datamodel datamodel) {

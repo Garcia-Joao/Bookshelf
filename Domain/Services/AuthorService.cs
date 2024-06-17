@@ -7,7 +7,7 @@ using Bookshelf.Infrastructure.Entities;
 
 namespace Bookshelf.Domain.Services {
     public class AuthorService : Service<AuthorEntity, Author> {
-        public AuthorService(Controller<AuthorEntity> controller, IMapper<AuthorEntity, Author> mapper) : base(controller, mapper) {
+        public AuthorService(Controller<AuthorEntity> controller, Mapper<AuthorEntity, Author> mapper) : base(controller, mapper) {
         }
 
         public Author GetRandomAuthor() {
@@ -39,13 +39,7 @@ namespace Bookshelf.Domain.Services {
 
         public List<Author> GetAll() {
             List<AuthorEntity> authors = controller.GetAll();
-            List<Author> returnList = new List<Author>();
-
-            foreach (AuthorEntity author in authors) {
-                returnList.Add(mapper.Map(author));
-            }
-
-            return returnList;
+            return mapper.Map(authors);
         }
 
         internal void Remove(Guid id) {

@@ -43,7 +43,7 @@ namespace Bookshelf.Presentation.ViewModels {
         }
 
         private void EditAuthor(Datamodel datamodel) {
-            editAuthorCallback?.Invoke(datamodel as Author);
+            editAuthorCallback?.Invoke((datamodel as Author)!);
         }
 
         private void RemoveAuthor(Datamodel author) {

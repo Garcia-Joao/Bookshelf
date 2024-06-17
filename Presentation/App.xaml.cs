@@ -32,15 +32,15 @@ namespace Bookshelf.Presentation {
             //Dependency Injection
             builder.Services.AddDbContext<DatabaseContext>();
 
-            builder.Services.AddTransient<IMapper<AuthorEntity, Author>,AuthorMapper>();
+            builder.Services.AddTransient<Mapper<AuthorEntity, Author>,AuthorMapper>();
             builder.Services.AddTransient<Controller<AuthorEntity>, AuthorController>();
             builder.Services.AddTransient<AuthorService>();
 
-            builder.Services.AddTransient<IMapper<GenreEntity, Genre>,GenreMapper>();
+            builder.Services.AddTransient<Mapper<GenreEntity, Genre>,GenreMapper>();
             builder.Services.AddTransient<Controller<GenreEntity>, GenreController>();
             builder.Services.AddTransient<GenreService>();
 
-            builder.Services.AddTransient<IMapper<BookEntity, Book>,BookMapper>();
+            builder.Services.AddTransient<Mapper<BookEntity, Book>,BookMapper>();
             builder.Services.AddTransient<Controller<BookEntity>, BookController>();
             builder.Services.AddTransient<BookService>();
 

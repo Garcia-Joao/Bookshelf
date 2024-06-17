@@ -12,4 +12,4 @@ Into the "Presentation/app.xaml.cs" you can find a comment "//InsertMockup(host)
 the project will insert some mockup, books, genres and authors, everytime that the project is executed
 
 ## Project Structure
-![Alt text](https://imgur.com/a/BKOFH8w)
+![Imgur](https://i.imgur.com/mx6RRz2.jpg)
